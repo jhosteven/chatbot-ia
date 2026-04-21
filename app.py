@@ -13,7 +13,6 @@ app = Flask(__name__)
 modelo = pickle.load(open("modelo_chatbot.pkl", "rb"))
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
-nltk.download('stopwords')
 stop_words = set(stopwords.words('spanish'))
 
 # Limpieza de texto
@@ -34,7 +33,12 @@ def predecir(texto):
     
     return prediccion, probabilidad
 
-# Endpoint
+# Endpoint raíz (PRIMERO)
+@app.route('/')
+def home():
+    return "Chatbot IA activo"
+
+# Endpoint chatbot
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
     data = request.json
@@ -68,9 +72,6 @@ def chatbot():
         "nivel_interes": nivel
     })
 
-port = int(os.environ.get("PORT", 10000))
-
-app.run(host="0.0.0.0", port=port)
-@app.route('/')
-def home():
-    return "Chatbot IA activo"
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
