@@ -35,9 +35,6 @@ def predecir(texto):
     return prediccion, probabilidad
 
 # Endpoint
-@app.route('/')
-def home():
-    return "Servidor activo"
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
     data = request.json
