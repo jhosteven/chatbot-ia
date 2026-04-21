@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pickle
 import re
 import nltk
@@ -8,6 +9,7 @@ import os
 nltk.download('stopwords', quiet=True)
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Cargar modelo y vectorizador
 modelo = pickle.load(open("modelo_chatbot.pkl", "rb"))
