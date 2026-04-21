@@ -41,7 +41,7 @@ def home():
 # Endpoint chatbot
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
-    data = request.json
+    data = request.get_json(force=True)
     mensaje = data.get("mensaje", "")
     
     intencion, prob = predecir(mensaje)
