@@ -60,7 +60,7 @@ def chatbot():
     respuesta = respuestas.get(intencion, "No entendí tu mensaje.")
 
     # Lead scoring
-    if intencion == "compra" and prob > 0.7:
+    if prob > 0.7:
         nivel = "alto"
     elif prob > 0.4:
         nivel = "medio"
