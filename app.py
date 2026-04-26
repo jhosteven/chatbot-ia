@@ -52,15 +52,13 @@ def chatbot():
     respuestas = {
         "informacion": "Te puedo brindar información sobre nuestros servicios.",
         "precio": "Nuestros precios varían según el servicio.",
-        "compra": "Perfecto, te ayudaré a contratar el servicio.",
-        "saludo": "Hola, ¿en qué puedo ayudarte?",
-        "despedida": "Gracias por contactarnos."
+        "compra": "Perfecto, te ayudaré a contratar el servicio."
     }
 
     respuesta = respuestas.get(intencion, "No entendí tu mensaje.")
 
     # Lead scoring
-    if prob > 0.7:
+    if intencion == "compra" and prob > 0.7:
         nivel = "alto"
     elif prob > 0.4:
         nivel = "medio"
