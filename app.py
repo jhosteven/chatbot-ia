@@ -8,12 +8,21 @@ import nltk
 import os
 nltk.download('stopwords', quiet=True)
 
+def cargar_modelo():
+    global modelo, vectorizer
+
+    if modelo is None or vectorizer is None:
+        print("🔄 Cargando modelo IA...")
+        modelo = pickle.load(open("modelo_chatbot.pkl", "rb"))
+        vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+        print("✅ Modelo cargado")
+    
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Cargar modelo y vectorizador
-modelo = pickle.load(open("modelo_chatbot.pkl", "rb"))
-vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+modelo = None
+vectorizer = None
 
 stop_words = set(stopwords.words('spanish'))
 
@@ -39,10 +48,16 @@ def predecir(texto):
 @app.route('/')
 def home():
     return "Chatbot IA activo"
+    
+@app.route('/warmup')
+def warmup():
+    cargar_modelo()
+    return jsonify({"status": "warm", "message": "Modelo listo"})
 
 # Endpoint chatbot
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
+    cargar_modelo()
     data = request.get_json(force=True)
     mensaje = data.get("mensaje", "")
     
